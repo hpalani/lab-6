@@ -17,46 +17,66 @@ void reset();
 // Variables
 int quotient = 0;
 int remainder = 0;
+int binary[1024];
 
 int main() {
-    int x;
-    string in;
-    
-    /* Accept decimal input */
-    cout << "Enter decimal integer below." 
-         << endl;
-    cin >> in;
-    
-    try { // Check if x is numeric
-        x = stoll(in);
-    } catch (exception &e) {
-        cout << "\n"
-             << "Make sure you're entering a positive integer!"
+    for (int hp = 0; hp < 4; hp++) {
+        int x;
+        string in;
+        
+        /* Accept decimal input */
+        cout << "Enter integer below." 
              << endl;
-        cin >> x;
-    }
-    
-    while (x < 1) { // Check if x is negative or zero
+        cin >> in;
+        
+        try { // Check if x is numeric
+            x = stoll(in);
+        } catch (exception &e) {
+            cout << "\n"
+                 << "Make sure you're entering a positive integer!"
+                 << endl;
+            cin >> x;
+        }
+        
+        while (x < 1) { // Check if x is negative or zero
+            cout << "\n"
+                 << "Make sure you're entering a positive integer!" 
+                 << endl;
+            cin >> x;
+        }
+        
         cout << "\n"
-             << "Make sure you're entering a positive integer!" 
+             << "Decimal: "
+             << x
+             << "\n"
+             << "Binary: ";
+        
+        /* Convert decimal to binary */
+        int i = 0;
+        while (x > 0) { // Implementation: decimal-binary conversion algorithm
+            division(x, 2);
+            binary[i] = remainder;
+            x = quotient;
+            i++;
+            reset();
+        }
+        
+        int count = 0;
+        for (int z = 0; z < i % 4; z++) {
+            cout << "0";
+            count++;
+        }
+        
+        for (int j = i - 1; j >= 0; j--) { // Print backwards to output binary
+            if (count % 4 == 0 && count > 0) {
+                cout << " ";
+            }
+            cout << binary[j];
+            count++;
+        }
+        
+        cout << "\n"
              << endl;
-        cin >> x;
-    }
-    
-    /* Convert decimal to binary */
-    int binary[1024];
-    int i = 0;
-    
-    while (x > 0) {
-        division(x, 2);
-        binary[i] = remainder;
-        x = quotient;
-        i++;
-        reset();
-    }
-    
-    for (int j = i - 1; j >= 0; j--) {
-        cout << binary[j];
     }
 }
 
